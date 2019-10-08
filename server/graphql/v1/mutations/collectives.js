@@ -590,10 +590,7 @@ export async function claimCollective(_, args, req) {
   // create default tiers
   const host = await models.Collective.findByPk(defaultHostCollective('opensource').CollectiveId);
 
-  collective = await collective.addHost(host, {
-    ...req.remoteUser.minimal,
-    isAdmin: () => true,
-  });
+  collective = await collective.addHost(host, req.remoteUser, { shouldAutomaticallyApprove: true });
 
   // get pledges
   const pledges = await models.Order.findAll({
